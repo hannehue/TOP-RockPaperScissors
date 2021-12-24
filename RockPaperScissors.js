@@ -39,7 +39,7 @@ function evaluateWinner(playerSelection, computerSelection){
 
         if (computerSelection === 'paper'){
             return 'win'
-        } else if (computerSelection === 'scissors'){
+        } else if (computerSelection === 'rock'){
             return 'lose'
         }
 
@@ -53,29 +53,29 @@ function evaluateWinner(playerSelection, computerSelection){
 function playRound (playerSelection, computerSelection){
     winLoseOrDraw = evaluateWinner(playerSelection, computerSelection);
     if (winLoseOrDraw === 'win'){
-        return printGameResult(winLoseOrDraw, playerSelection, computerSelection);
+        printGameResult(winLoseOrDraw, playerSelection, computerSelection);
     } else if (winLoseOrDraw === 'lose'){
-        return printGameResult(winLoseOrDraw, computerSelection, playerSelection);
+        printGameResult(winLoseOrDraw, computerSelection, playerSelection);
     } else {
-        return `Draw! Play again`;
+        printGameResult(winLoseOrDraw);
     }
 }
 
 
 
 function printGameResult(winLoseOrDraw ,winnerChoice, loserChoice){
-    return `You ${winLoseOrDraw}! ${winnerChoice} beats ${loserChoice}`;
+    document.querySelector('.game-result').textContent = (winLoseOrDraw === 'draw') ? `Draw! Play again` : `You ${winLoseOrDraw}! ${winnerChoice} beats ${loserChoice}`;
 }
 
 
 
-function game() {
-    for (let i = 0; i < 5; i++){
-        let playerSelection = prompt().toLocaleLowerCase();
-        let computerSelection = computerPlay();
-        console.log(`Player: ${playerSelection} / Computer: ${computerSelection}`);
-        console.log(playRound(playerSelection, computerSelection));
-    }
-}
+
+const gameButtons = document.querySelectorAll('.game-btn');
+gameButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+        playRound(button.textContent.toLowerCase(), computerPlay());
+    })
+})
+
 
 game();
